@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Operaciones Matemáticas</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <h1>Operaciones Matemáticas</h1>
+        <p>Calculadora con diseño mejorado</p>
+        <a href="../index.html" style="color:#fff;">⬅ Volver al inicio</a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+
+        <section class="calc-container">
+
+            <h2 class="calc-title">Calculadora</h2>
+
+            <input type="number" id="num1" class="calc-input" placeholder="Ingrese el primer número">
+            <input type="number" id="num2" class="calc-input" placeholder="Ingrese el segundo número">
+
+            <div class="calc-buttons">
+                <button onclick="sumar()" class="btn-calc">+</button>
+                <button onclick="restar()" class="btn-calc">−</button>
+                <button onclick="multiplicar()" class="btn-calc">×</button>
+                <button onclick="dividir()" class="btn-calc">÷</button>
+            </div>
+
+            <div id="resultado" class="calc-result">
+                Resultado: 0
+            </div>
+
+        </section>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Diseñada por Daysi Britos - 2025</p>
+</footer>
+
+<script src="../js/calculos.js"></script>
+</body>
+</html>

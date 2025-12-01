@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Comentarios - Proyecto Final Daysi</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-flex">
+        <div class="logo">
+            <h1>Proyecto Final Daysi</h1>
+        </div>
+
+        <nav class="main-nav">
+            <ul class="nav-menu">
+                <li class="dropdown"><a href="../index.html">Inicio</a></li>
+                <li class="dropdown"><a href="redsocial.html">Red Social</a></li>
+                <li class="dropdown"><a href="comentarios.html">Comentarios</a></li>
+                <li class="dropdown"><a href="noticias.html">Noticias</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+
+        <h2 class="titulo-seccion">💬 Opiniones del Proyecto Final</h2>
+
+        <!-- SECCIÓN 1 -->
+        <div class="desc-card">
+            <h3>🇵🇾 Cultura del Paraguay</h3>
+            <p>“La música paraguaya representa mucho nuestra identidad.”</p>
+            <button onclick="like('like1')">❤️ Me gusta</button>
+            <span id="like1">0</span>
+        </div>
+
+        <!-- SECCIÓN 2 -->
+        <div class="desc-card">
+            <h3>🧉 Educación y Juventud</h3>
+            <p>“La tecnología es muy importante para el estudio hoy en día.”</p>
+            <button onclick="like('like2')">❤️ Me gusta</button>
+            <span id="like2">0</span>
+        </div>
+
+        <!-- SECCIÓN 3 -->
+        <div class="desc-card">
+            <h3>📰 Opinión General</h3>
+            <p>“Internet ayuda mucho a mantenernos informados.”</p>
+            <button onclick="like('like3')">❤️ Me gusta</button>
+            <span id="like3">0</span>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>Diseñada por Daysi Britos - 2025</p>
+    </div>
+</footer>
+
+<script>
+function like(id) {
+    let contador = document.getElementById(id);
+    contador.innerText = parseInt(contador.innerText) + 1;
+}
+</script>
+
+</body>
+</html>
+<footer class="footer">
+    <p>Diseñada por Daysi Britos - 2025</p>
+</footer>
+
+<a href="../index.html" class="btn-volver-global">⬅ Volver al Inicio</a>

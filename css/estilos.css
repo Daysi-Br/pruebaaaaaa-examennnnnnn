@@ -1,0 +1,419 @@
+:root {
+    --primary-color: #2a0a4a;
+    --secondary-color: #7b2cbf;
+    --text-color: #f5eeff;
+    --card-bg: #3f1670;
+    --hover-bg: #9d4edd;
+    --border-radius: 14px;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(160deg, #140021, #25003d);
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 16px;
+}
+
+/* HEADER */
+.header {
+    background: linear-gradient(90deg, #240046, #3c096c);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.header-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.logo h1 {
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 1px;
+    color: #e9d5ff;
+}
+
+/* MENÚ PRINCIPAL */
+.main-nav {
+    display: flex;
+    justify-content: center;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+}
+
+.nav-menu li {
+    position: relative;
+}
+
+.nav-menu a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: block;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.nav-menu a:hover {
+    background: var(--hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+/* SUBMENÚ */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: linear-gradient(180deg, #5a189a, #3c096c);
+    min-width: 210px;
+    border-radius: 12px;
+    z-index: 1000;
+    overflow: hidden;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.7);
+}
+
+.submenu li {
+    padding: 10px;
+}
+
+.submenu a {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.dropdown:hover .submenu {
+    display: block;
+}
+
+/* CONTENIDO */
+.main-content {
+    padding: 50px 0;
+}
+
+/* DESCRIPCIÓN */
+.site-description {
+    margin-top: 40px;
+}
+
+.titulo-seccion {
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 22px;
+    color: #f0d9ff;
+}
+
+.description-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+}
+
+.desc-card {
+    background: linear-gradient(160deg, #3b195f, #240046);
+    padding: 22px;
+    border-radius: 16px;
+    border-left: 6px solid #c77dff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.7);
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.desc-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.9);
+}
+
+.desc-card h4 {
+    color: #f2c9ff;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.desc-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #f2e7ff;
+}
+
+/* FOOTER */
+.footer {
+    background: linear-gradient(90deg, #240046, #3c096c);
+    color: var(--text-color);
+    text-align: center;
+    padding: 24px 0;
+    margin-top: 40px;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.6);
+    font-weight: bold;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .nav-menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .submenu {
+        position: static;
+        width: 100%;
+    }
+}
+
+/* ====== CALCULADORA MEJORADA ESTÉTICAMENTE ====== */
+
+.calc-container {
+    max-width: 420px;
+    margin: auto;
+    background: linear-gradient(160deg, #3f1670, #240046);
+    padding: 28px;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+    text-align: center;
+}
+
+.calc-title {
+    margin-bottom: 22px;
+    font-size: 24px;
+    color: #f2c9ff;
+}
+
+.calc-input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    text-align: center;
+}
+
+.calc-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.btn-calc {
+    flex: 1;
+    padding: 15px;
+    font-size: 22px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(145deg, #a66cff, #7b2cbf);
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.btn-calc:hover {
+    transform: scale(1.12);
+    background: linear-gradient(145deg, #c77dff, #9d4edd);
+}
+
+.calc-result {
+    background: #140021;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #f5eeff;
+}
+/* ===== BOTONES GENERALES UNIFICADOS ===== */
+
+.btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #7b2cbf, #5a189a);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.5);
+}
+
+/* =============================== */
+/* BOTÓN VOLVER AL INICIO PREMIUM */
+/* =============================== */
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px auto 0 auto;
+    padding: 14px 34px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #9d4edd, #7b2cbf, #5a189a);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    box-shadow: 
+        0 0 10px rgba(157, 78, 221, 0.8),
+        0 6px 18px rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Brillo animado */
+.btn-volver::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 120%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+.btn-volver:hover::before {
+    left: 120%;
+}
+
+.btn-volver:hover {
+    transform: scale(1.12);
+    box-shadow: 
+        0 0 18px rgba(199, 125, 255, 0.9),
+        0 10px 26px rgba(0, 0, 0, 0.9);
+}
+
+.btn-volver:active {
+    transform: scale(1.05);
+}
+
+
+/* ================================= */
+/* INPUTS Y SELECT UNIFICADOS BONITOS */
+/* ================================= */
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: #140021;
+    color: #ffffff;
+    font-size: 15px;
+    margin-bottom: 14px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #c77dff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 10px #9d4edd;
+}
+
+/* =============================== */
+/* TARJETAS USADAS EN TODAS PÁGINAS */
+/* =============================== */
+
+.card {
+    background: linear-gradient(160deg, #3f1670, #240046);
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.8);
+    margin-top: 30px;
+}
+/* ===================================== */
+/* BOTÓN VOLVER AL INICIO GLOBAL PREMIUM */
+/* ===================================== */
+
+.btn-volver-global {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 40px auto 0 auto;
+    padding: 15px 36px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #9d4edd, #7b2cbf, #5a189a);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    box-shadow: 
+        0 0 14px rgba(157, 78, 221, 0.8),
+        0 8px 22px rgba(0, 0, 0, 0.9);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Brillo animado */
+.btn-volver-global::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -140%;
+    width: 140%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.7),
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+.btn-volver-global:hover::before {
+    left: 140%;
+}
+
+.btn-volver-global:hover {
+    transform: scale(1.12);
+    box-shadow: 
+        0 0 22px rgba(199, 125, 255, 0.9),
+        0 14px 32px rgba(0, 0, 0, 1);
+}
+
+.btn-volver-global:active {
+    transform: scale(1.05);
+}

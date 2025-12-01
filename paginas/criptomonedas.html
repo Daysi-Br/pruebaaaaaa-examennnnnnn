@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Criptomonedas - CoinGecko</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <h1>Criptomonedas</h1>
+        <p>Precios en tiempo real - CoinGecko</p>
+        <a href="../index.html" style="color:#fff;">⬅ Volver al inicio</a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+
+        <section class="desc-card" style="max-width:900px; margin:auto; text-align:center;">
+
+            <h2>Principales Criptomonedas</h2>
+
+            <button onclick="cargarCriptos()" style="padding:10px 20px; cursor:pointer; margin-bottom:20px;">
+                Cargar precios
+            </button>
+
+            <div id="resultadoCripto" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px;"></div>
+
+        </section>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Diseñada por Daysi Britos - 2025</p>
+</footer>
+
+<!-- SCRIPT DIRECTO -->
+<script>
+function cargarCriptos() {
+    const resultado = document.getElementById("resultadoCripto");
+    resultado.innerHTML = "<p>Cargando datos...</p>";
+
+    const url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,binancecoin,cardano,solana";
+    const valorDolarGuarani = 7300; // Aproximado
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+
+            resultado.innerHTML = "";
+
+            data.forEach(cripto => {
+                const nombre = cripto.name;
+                const simbolo = cripto.symbol.toUpperCase();
+                const precioUSD = cripto.current_price;
+                const precioGs = (precioUSD * valorDolarGuarani).toLocaleString();
+                const variacion = cripto.price_change_percentage_24h.toFixed(2);
+
+                const card = document.createElement("div");
+                card.style.background = "var(--card-bg)";
+                card.style.padding = "20px";
+                card.style.borderRadius = "12px";
+                card.style.boxShadow = "0 4px 10px rgba(0,0,0,0.5)";
+                card.style.borderLeft = "6px solid #a66cff";
+                card.style.textAlign = "center";
+
+                card.innerHTML = `
+                    <h3 style="margin-bottom:10px;">${nombre}</h3>
+                    <p><strong>${simbolo}</strong></p>
+
+                    <p style="font-size:18px; margin:10px 0;">
+                        $${precioUSD.toLocaleString()} USD
+                    </p>
+
+                    <p style="font-size:12px; opacity:0.85;">
+                        ≈ ${precioGs} Gs.
+                    </p>
+
+                    <p style="margin-top:12px;">
+                        <strong>Variación 24h:</strong> ${variacion} %
+                    </p>
+                `;
+
+                resultado.appendChild(card);
+            });
+
+        })
+        .catch(error => {
+            resultado.innerHTML = "<p>Error al obtener datos de las criptomonedas.</p>";
+        });
+}
+</script>
+
+</body>
+</html>

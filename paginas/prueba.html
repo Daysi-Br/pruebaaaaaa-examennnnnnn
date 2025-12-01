@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Examen Online - Trabajo Final</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f4f6fa;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0056b3, #007bff);
+            padding: 25px 10px;
+            text-align: center;
+            color: white;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+
+        .section {
+            display: none;
+            animation: aparecer 0.4s ease;
+        }
+
+        @keyframes aparecer {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin-top: 8px;
+            margin-bottom: 18px;
+            font-size: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #0056b3, #007bff);
+            color: white;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .pregunta {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0f4ff;
+            border-left: 5px solid #0056b3;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            background: #222;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>Examen Online - Trabajo Final</header>
+
+<div class="container">
+
+    <!-- DATOS DEL ALUMNO -->
+    <div id="seccion-datos" class="section" style="display:block;">
+        <h2>Datos del Alumno</h2>
+
+        <label>Nombre</label>
+        <input type="text" id="nombre" placeholder="Ingrese su nombre">
+
+        <label>Apellido</label>
+        <input type="text" id="apellido" placeholder="Ingrese su apellido">
+
+        <label>Correo</label>
+        <input type="email" id="email" placeholder="correo@gmail.com">
+
+        <label>Curso</label>
+        <select id="curso">
+            <option value="">Seleccione el curso</option>
+            <option value="HTML y CSS">HTML y CSS</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Diseño Web">Diseño Web</option>
+        </select>
+
+        <button class="btn" onclick="mostrarPreguntas()">Continuar</button>
+    </div>
+
+    <!-- PREGUNTAS DEL EXAMEN -->
+    <div id="seccion-examen" class="section">
+        <h2>Preguntas del Examen</h2>
+
+        <div class="pregunta">
+            <p><b>1. ¿Qué es HTML?</b></p>
+            <input type="text" id="p1" placeholder="Escribe tu respuesta...">
+        </div>
+
+        <div class="pregunta">
+            <p><b>2. ¿Cuál es la función del CSS?</b></p>
+            <input type="text" id="p2" placeholder="Escribe tu respuesta...">
+        </div>
+
+        <div class="pregunta">
+            <p><b>3. ¿Qué significa JS?</b></p>
+            <input type="text" id="p3" placeholder="Escribe tu respuesta...">
+        </div>
+
+        <div class="pregunta">
+            <p><b>4. ¿Para qué sirve GitHub Pages?</b></p>
+            <textarea id="p4" rows="3"></textarea>
+        </div>
+
+        <button class="btn" onclick="enviarExamen()">Enviar Examen</button>
+    </div>
+
+</div>
+
+<footer>
+    Diseñado por Daysi Britos - 2025
+</footer>
+
+<script>
+/* Inicializar EmailJS */
+(function() {
+    emailjs.init("ioeOTFoxcV74jYCfy");
+})();
+
+/* Mostrar la sección de preguntas */
+function mostrarPreguntas() {
+    const nombre = document.getElementById("nombre").value.trim();
+    const apellido = document.getElementById("apellido").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const curso = document.getElementById("curso").value;
+
+    if (!nombre || !apellido || !email || !curso) {
+        alert("Complete todos los datos antes de continuar.");
+        return;
+    }
+
+    document.getElementById("seccion-datos").style.display = "none";
+    document.getElementById("seccion-examen").style.display = "block";
+}
+
+/* Enviar correo con examen */
+function enviarExamen() {
+    const params = {
+        nombre: document.getElementById("nombre").value,
+        apellido: document.getElementById("apellido").value,
+        email: document.getElementById("email").value,
+        curso: document.getElementById("curso").value,
+        p1: document.getElementById("p1").value,
+        p2: document.getElementById("p2").value,
+        p3: document.getElementById("p3").value,
+        p4: document.getElementById("p4").value,
+        fecha: new Date().toLocaleString()
+    };
+
+    emailjs.send("service_hf2hjim", "template_w8ubmqn", params)
+        .then(() => {
+            alert("Examen enviado correctamente. Gracias por participar.");
+            window.location.href = "../index.html";
+        })
+        .catch((err) => {
+            alert("Error al enviar el examen");
+            console.error(err);
+        });
+}
+</script>
+
+</body>
+</html>

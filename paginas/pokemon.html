@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokémon - API</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <h1>Pokémon</h1>
+        <p>Datos obtenidos desde la PokéAPI</p>
+        <a href="../index.html" style="color:#fff;">⬅ Volver al inicio</a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+
+        <section class="desc-card" style="max-width:550px; margin:auto; text-align:center;">
+
+            <h2>Buscar Pokémon</h2>
+
+            <input
+                type="text"
+                id="pokemon"
+                placeholder="Ej: pikachu, charizard, bulbasaur"
+                style="width:100%; padding:10px; margin:15px 0; border-radius:6px; border:none; text-align:center;"
+            >
+
+            <button onclick="buscarPokemon()" style="padding:10px 20px; cursor:pointer;">
+                Buscar
+            </button>
+
+            <br><br>
+
+            <button onclick="pokemonAleatorio()" style="padding:10px 20px; cursor:pointer;">
+                Pokémon al azar
+            </button>
+
+            <div id="resultadoPokemon" style="margin-top:25px;"></div>
+
+        </section>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Diseñada por Daysi Britos - 2025</p>
+</footer>
+
+<script>
+function buscarPokemon() {
+    const nombre = document.getElementById("pokemon").value.trim().toLowerCase();
+
+    if (nombre === "") {
+        alert("Ingrese el nombre de un Pokémon o use el botón al azar");
+        return;
+    }
+
+    const url = `https://pokeapi.co/api/v2/pokemon/${nombre}`;
+    cargarPokemon(url);
+}
+
+function pokemonAleatorio() {
+    const numero = Math.floor(Math.random() * 1010) + 1;
+    const url = `https://pokeapi.co/api/v2/pokemon/${numero}`;
+    cargarPokemon(url);
+}
+
+function cargarPokemon(url) {
+    const resultado = document.getElementById("resultadoPokemon");
+    resultado.innerHTML = "<p>Buscando Pokémon...</p>";
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Pokémon no encontrado");
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            const nombrePokemon = data.name.toUpperCase();
+            const imagen = data.sprites.other["official-artwork"].front_default 
+                        || data.sprites.front_default;
+
+            const tipo = data.types.map(t => traducirTipo(t.type.name)).join(", ");
+            const altura = (data.height / 10).toFixed(2) + " m";
+            const peso = (data.weight / 10).toFixed(1) + " kg";
+
+            resultado.innerHTML = `
+                <h3>${nombrePokemon}</h3>
+                <img src="${imagen}" alt="${nombrePokemon}" width="180">
+                <p><strong>Tipo:</strong> ${tipo}</p>
+                <p><strong>Altura:</strong> ${altura}</p>
+                <p><strong>Peso:</strong> ${peso}</p>
+            `;
+        })
+        .catch(error => {
+            resultado.innerHTML = "<p>Pokémon no encontrado.</p>";
+        });
+}
+
+function traducirTipo(tipo) {
+    const tipos = {
+        fire: "Fuego",
+        water: "Agua",
+        grass: "Planta",
+        electric: "Eléctrico",
+        psychic: "Psíquico",
+        ice: "Hielo",
+        dragon: "Dragón",
+        dark: "Siniestro",
+        fairy: "Hada",
+        normal: "Normal",
+        fighting: "Lucha",
+        flying: "Volador",
+        poison: "Veneno",
+        ground: "Tierra",
+        rock: "Roca",
+        bug: "Bicho",
+        ghost: "Fantasma",
+        steel: "Acero"
+    };
+    return tipos[tipo] || tipo;
+}
+</script>
+
+</body>
+</html>

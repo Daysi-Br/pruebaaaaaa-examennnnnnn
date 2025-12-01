@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Noticias</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <h1>Noticias</h1>
+        <p>Actualidad con sistema de Me Gusta</p>
+        <a href="../index.html" style="color:#fff;">⬅ Volver al inicio</a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+
+        <!-- NOTICIA 1 -->
+        <section class="desc-card" style="max-width:700px; margin:auto; margin-bottom:25px; text-align:center;">
+            <h2>Noticia 1</h2>
+            <p>
+                El turismo en Paraguay creció significativamente este año, destacándose ciudades como Encarnación y San Bernardino.
+            </p>
+
+            <button onclick="likeNoticia1()">❤️ Me gusta</button>
+            <p>Likes: <span id="likesNoticia1">0</span></p>
+        </section>
+
+        <!-- NOTICIA 2 -->
+        <section class="desc-card" style="max-width:700px; margin:auto; margin-bottom:25px; text-align:center;">
+            <h2>Noticia 2</h2>
+            <p>
+                Se presentó un nuevo proyecto educativo que busca fortalecer la enseñanza de programación en colegios públicos.
+            </p>
+
+            <button onclick="likeNoticia2()">❤️ Me gusta</button>
+            <p>Likes: <span id="likesNoticia2">0</span></p>
+        </section>
+
+        <!-- NOTICIA 3 -->
+        <section class="desc-card" style="max-width:700px; margin:auto; text-align:center;">
+            <h2>Noticia 3</h2>
+            <p>
+                La música paraguaya sigue ganando reconocimiento internacional con nuevos talentos juveniles.
+            </p>
+
+            <button onclick="likeNoticia3()">❤️ Me gusta</button>
+            <p>Likes: <span id="likesNoticia3">0</span></p>
+        </section>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Diseñada por Daysi Britos - 2025</p>
+</footer>
+
+<script>
+let n1 = 0;
+let n2 = 0;
+let n3 = 0;
+
+function likeNoticia1() {
+    n1++;
+    document.getElementById("likesNoticia1").textContent = n1;
+}
+
+function likeNoticia2() {
+    n2++;
+    document.getElementById("likesNoticia2").textContent = n2;
+}
+
+function likeNoticia3() {
+    n3++;
+    document.getElementById("likesNoticia3").textContent = n3;
+}
+</script>
+
+</body>
+</html>

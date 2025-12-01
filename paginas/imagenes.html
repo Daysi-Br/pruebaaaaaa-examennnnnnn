@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Imágenes - Trabajo Final</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+        .galeria-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .categorias {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .categoria-btn {
+            background: #ecf0f1;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .categoria-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .imagen-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .imagen-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .imagen-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .imagen-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .imagen-item:hover .imagen-info {
+            transform: translateY(0);
+        }
+        
+        .modal-imagen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+        }
+        
+        .modal-contenido {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .modal-contenido img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+        
+        .modal-info {
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .cerrar-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        .nav-modal {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 50%;
+        }
+        
+        .nav-prev {
+            left: 20px;
+        }
+        
+        .nav-next {
+            right: 20px;
+        }
+        
+        .filtro-busqueda {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filtro-busqueda input {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h1><a href="../index.html" style="color: white; text-decoration: none;">Mi Sitio Web</a></h1>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="../index.html">Inicio</a></li>
+                    <li class="nav-item"><a href="imagenes.html">Imágenes</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <h1>🖼️ Galería de Imágenes</h1>
+            <p>Explora nuestra colección de imágenes organizadas por categorías.</p>
+            
+            <div class="galeria-controls">
+                <div class="filtro-busqueda">
+                    <input type="text" id="busqueda-imagen" class="form-control" placeholder="Buscar imágenes...">
+                    <button class="btn" onclick="filtrarImagenes()">Buscar</button>
+                </div>
+                
+                <div class="categorias">
+                    <button class="categoria-btn active" onclick="filtrarPorCategoria('todas')">Todas</button>
+                    <button class="categoria-btn" onclick="filtrarPorCategoria('naturaleza')">Naturaleza</button>
+                    <button class="categoria-btn" onclick="filtrarPorCategoria('ciudad')">Ciudad</button>
+                    <button class="categoria-btn" onclick="filtrarPorCategoria('animales')">Animales</button>
+                    <button class="categoria-btn" onclick="filtrarPorCategoria('tecnologia')">Tecnología</button>
+                    <button class="categoria-btn" onclick="filtrarPorCategoria('arte')">Arte</button>
+                </div>
+            </div>
+            
+            <div class="galeria-grid" id="galeria-container">
+                <!-- Las imágenes se cargarán aquí con JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para imagen ampliada -->
+    <div class="modal-imagen" id="modal-imagen">
+        <button class="cerrar-modal" onclick="cerrarModal()">×</button>
+        <button class="nav-modal nav-prev" onclick="cambiarImagen(-1)">‹</button>
+        <button class="nav-modal nav-next" onclick="cambiarImagen(1)">›</button>
+        
+        <div class="modal-contenido">
+            <img id="imagen-ampliada" src="" alt="">
+            <div class="modal-info">
+                <h3 id="titulo-imagen"></h3>
+                <p id="descripcion-imagen"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Página Web Diseñada por Daysi Britos - 2025</p>
+    </footer>
+
+    <script>
+        // Base de datos de imágenes
+        const imagenes = [
+            {
+                id: 1,
+                titulo: "Montañas al Amanecer",
+                categoria: "naturaleza",
+                descripcion: "Hermoso paisaje de montañas durante el amanecer",
+                url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
+                tags: ["montañas", "amanecer", "paisaje", "naturaleza"]
+            },
+            {
+                id: 2,
+                titulo: "Rascacielos Modernos",
+                categoria: "ciudad",
+                descripcion: "Edificios modernos en el distrito financiero",
+                url: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=300&fit=crop",
+                tags: ["ciudad", "edificios", "moderno", "arquitectura"]
+            },
+            {
+                id: 3,
+                titulo: "León en la Sabana",
+                categoria: "animales",
+                descripcion: "Majestuoso león descansando en la sabana africana",
+                url: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=400&h=300&fit=crop",
+                tags: ["león", "animales", "sabana", "africa"]
+            },
+            {
+                id: 4,
+                titulo: "Aurora Boreal",
+                categoria: "naturaleza",
+                descripcion: "Espectacular aurora boreal en el cielo nocturno",
+                url: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400&h=300&fit=crop",
+                tags: ["aurora", "noche", "cielo", "naturaleza"]
+            },
+            {
+                id: 5,
+                titulo: "Código de Programación",
+                categoria: "tecnologia",
+                descripcion: "Pantalla con código de programación en un editor moderno",
+                url: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=400&h=300&fit=crop",
+                tags: ["código", "programación", "tecnología", "desarrollo"]
+            },
+            {
+                id: 6,
+                titulo: "Obras de Arte Abstracto",
+                categoria: "arte",
+                descripcion: "Colorida pintura abstracta con texturas interesantes",
+                url: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
+                tags: ["arte", "abstracto", "color", "pintura"]
+            },
+            {
+                id: 7,
+                titulo: "Playas Tropicales",
+                categoria: "naturaleza",
+                descripcion: "Hermosa playa con aguas cristalinas y palmeras",
+                url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop",
+                tags: ["playa", "mar", "tropical", "vacaciones"]
+            },
+            {
+                id: 8,
+                titulo: "Calles de París",
+                categoria: "ciudad",
+                descripcion: "Encantadoras calles empedradas de París con arquitectura clásica",
+                url: "https://images.unsplash.com/photo-1502602898536-47ad22581b52?w=400&h=300&fit=crop",
+                tags: ["parís", "europa", "ciudad", "arquitectura"]
+            },
+            {
+                id: 9,
+                titulo: "Tecnología Futurista",
+                categoria: "tecnologia",
+                descripcion: "Conceptos de tecnología futurista y diseño innovador",
+                url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop",
+                tags: ["futuro", "tecnología", "innovación", "diseño"]
+            },
+            {
+                id: 10,
+                titulo: "Escultura Moderna",
+                categoria: "arte",
+                descripcion: "Impresionante escultura moderna en un museo de arte",
+                url: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400&h=300&fit=crop",
+                tags: ["escultura", "arte", "moderno", "museo"]
+            },
+            {
+                id: 11,
+                titulo: "Bosque Encantado",
+                categoria: "naturaleza",
+                descripcion: "Misterioso bosque con rayos de luz filtrándose entre los árboles",
+                url: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&h=300&fit=crop",
+                tags: ["bosque", "naturaleza", "árboles", "luz"]
+            },
+            {
+                id: 12,
+                titulo: "Pingüinos Antárticos",
+                categoria: "animales",
+                descripcion: "Grupo de pingüinos en su hábitat natural en la Antártida",
+                url: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=300&fit=crop",
+                tags: ["pingüinos", "antártida", "animales", "naturaleza"]
+            }
+        ];
+
+        let categoriaActual = 'todas';
+        let imagenesFiltradas = [];
+        let imagenActualIndex = 0;
+
+        function cargarGaleria() {
+            const container = document.getElementById('galeria-container');
+            container.innerHTML = '';
+
+            const imagenesAMostrar = categoriaActual === 'todas' ? imagenes : imagenesFiltradas;
+
+            if (imagenesAMostrar.length === 0) {
+                container.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; padding: 2rem;">No se encontraron imágenes con los filtros aplicados.</p>';
+                return;
+            }
+
+            imagenesAMostrar.forEach((imagen, index) => {
+                const imagenHTML = `
+                    <div class="imagen-item" onclick="abrirModal(${index})">
+                        <img src="${imagen.url}" alt="${imagen.titulo}" loading="lazy">
+                        <div class="imagen-info">
+                            <h4>${imagen.titulo}</h4>
+                            <p>${imagen.categoria.charAt(0).toUpperCase() + imagen.categoria.slice(1)}</p>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += imagenHTML;
+            });
+        }
+
+        function filtrarPorCategoria(categoria) {
+            // Actualizar botones activos
+            document.querySelectorAll('.categoria-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            categoriaActual = categoria;
+            
+            if (categoria === 'todas') {
+                imagenesFiltradas = imagenes;
+            } else {
+                imagenesFiltradas = imagenes.filter(imagen => imagen.categoria === categoria);
+            }
+            
+            cargarGaleria();
+        }
+
+        function filtrarImagenes() {
+            const busqueda = document.getElementById('busqueda-imagen').value.toLowerCase();
+            
+            if (!busqueda) {
+                cargarGaleria();
+                return;
+            }
+
+            imagenesFiltradas = imagenes.filter(imagen => 
+                imagen.titulo.toLowerCase().includes(busqueda) ||
+                imagen.descripcion.toLowerCase().includes(busqueda) ||
+                imagen.tags.some(tag => tag.toLowerCase().includes(busqueda))
+            );
+
+            categoriaActual = 'busqueda';
+            cargarGaleria();
+        }
+
+        function abrirModal(index) {
+            const modal = document.getElementById('modal-imagen');
+            const imagenesAMostrar = categoriaActual === 'todas' ? imagenes : imagenesFiltradas;
+            
+            imagenActualIndex = index;
+            const imagen = imagenesAMostrar[imagenActualIndex];
+            
+            document.getElementById('imagen-ampliada').src = imagen.url;
+            document.getElementById('titulo-imagen').textContent = imagen.titulo;
+            document.getElementById('descripcion-imagen').textContent = imagen.descripcion;
+            
+            modal.style.display = 'block';
+            
+            // Prevenir scroll del body
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarModal() {
+            const modal = document.getElementById('modal-imagen');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function cambiarImagen(direccion) {
+            const imagenesAMostrar = categoriaActual === 'todas' ? imagenes : imagenesFiltradas;
+            imagenActualIndex += direccion;
+            
+            if (imagenActualIndex < 0) {
+                imagenActualIndex = imagenesAMostrar.length - 1;
+            } else if (imagenActualIndex >= imagenesAMostrar.length) {
+                imagenActualIndex = 0;
+            }
+            
+            const imagen = imagenesAMostrar[imagenActualIndex];
+            document.getElementById('imagen-ampliada').src = imagen.url;
+            document.getElementById('titulo-imagen').textContent = imagen.titulo;
+            document.getElementById('descripcion-imagen').textContent = imagen.descripcion;
+        }
+
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                cerrarModal();
+            } else if (event.key === 'ArrowLeft') {
+                cambiarImagen(-1);
+            } else if (event.key === 'ArrowRight') {
+                cambiarImagen(1);
+            }
+        });
+
+        // Cargar galería al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            imagenesFiltradas = imagenes;
+            cargarGaleria();
+            
+            // Permitir buscar con Enter
+            document.getElementById('busqueda-imagen').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    filtrarImagenes();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

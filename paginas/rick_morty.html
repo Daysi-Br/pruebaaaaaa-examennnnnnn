@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Rick & Morty - API</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <h1>Rick & Morty</h1>
+        <p>Datos obtenidos desde la API Rick & Morty</p>
+        <a href="../index.html" style="color:#fff;">⬅ Volver al inicio</a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+
+        <section class="desc-card" style="max-width:600px; margin:auto; text-align:center;">
+
+            <h2>Buscar Personaje</h2>
+
+            <input
+                type="text"
+                id="personaje"
+                placeholder="Ej: Rick, Morty, Summer"
+                style="width:100%; padding:10px; margin:15px 0; border-radius:6px; border:none; text-align:center;"
+            >
+
+            <button onclick="buscarPersonaje()" style="padding:10px 20px; cursor:pointer;">
+                Buscar
+            </button>
+
+            <br><br>
+
+            <button onclick="personajeAleatorio()" style="padding:10px 20px; cursor:pointer;">
+                Personaje al azar
+            </button>
+
+            <div id="resultadoPersonaje" style="margin-top:25px;"></div>
+
+        </section>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Diseñada por Daysi Britos - 2025</p>
+</footer>
+
+<script>
+function buscarPersonaje() {
+    const nombre = document.getElementById("personaje").value.trim();
+
+    if (nombre === "") {
+        alert("Ingrese un nombre o use el botón al azar");
+        return;
+    }
+
+    const url = `https://rickandmortyapi.com/api/character/?name=${nombre}`;
+    cargarPersonaje(url);
+}
+
+function personajeAleatorio() {
+    const numero = Math.floor(Math.random() * 826) + 1;
+    const url = `https://rickandmortyapi.com/api/character/${numero}`;
+    cargarPersonaje(url);
+}
+
+function cargarPersonaje(url) {
+    const resultado = document.getElementById("resultadoPersonaje");
+    resultado.innerHTML = "<p>Buscando personaje...</p>";
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Personaje no encontrado");
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            const personaje = data.results ? data.results[0] : data;
+
+            const nombre = personaje.name;
+            const estado = traducirEstado(personaje.status);
+            const especie = traducirEspecie(personaje.species);
+            const origen = personaje.origin.name;
+            const imagen = personaje.image;
+
+            resultado.innerHTML = `
+                <h3>${nombre}</h3>
+                <img src="${imagen}" alt="${nombre}" width="200" style="border-radius:10px;">
+                <p><strong>Estado:</strong> ${estado}</p>
+                <p><strong>Especie:</strong> ${especie}</p>
+                <p><strong>Origen:</strong> ${origen}</p>
+            `;
+        })
+        .catch(error => {
+            resultado.innerHTML = "<p>Personaje no encontrado.</p>";
+        });
+}
+
+function traducirEstado(estado) {
+    if (estado === "Alive") return "Vivo";
+    if (estado === "Dead") return "Muerto";
+    return "Desconocido";
+}
+
+function traducirEspecie(especie) {
+    const especies = {
+        Human: "Humano",
+        Alien: "Alienígena",
+        Robot: "Robot",
+        Poopybutthole: "Poopybutthole",
+        Animal: "Animal",
+        Mythological: "Mitológico",
+        Cronenberg: "Cronenberg",
+        Disease: "Enfermedad"
+    };
+    return especies[especie] || especie;
+}
+</script>
+
+</body>
+</html>

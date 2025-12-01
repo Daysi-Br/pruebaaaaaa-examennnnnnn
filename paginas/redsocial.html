@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Red Social</title>
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <h1>Red Social</h1>
+        <p>Publicaciones con sistema de Me Gusta</p>
+        <a href="../index.html" style="color:#fff;">⬅ Volver al inicio</a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="container">
+
+        <!-- IMAGEN -->
+        <section class="desc-card" style="max-width:600px; margin:auto; text-align:center; margin-bottom:30px;">
+            <h2>Publicación de Imagen</h2>
+
+            <img src="../statics/images/paraguay1.jpg" width="100%" style="border-radius:10px;">
+
+            <p style="margin:15px 0;">Paisaje del Paraguay</p>
+
+            <button onclick="likeImagen()">❤️ Me gusta</button>
+            <p>Likes: <span id="likesImagen">28370</span></p>
+        </section>
+
+        <!-- VIDEO -->
+        <section class="desc-card" style="max-width:600px; margin:auto; text-align:center; margin-bottom:30px;">
+            <h2>Publicación de Video</h2>
+
+            <video src="../statics/video/video.mp4" controls width="100%" style="border-radius:10px;"></video>
+
+            <p style="margin:15px 0;">Video sobre la cultura del Paraguay</p>
+
+            <button onclick="likeVideo()">❤️ Me gusta</button>
+            <p>Likes: <span id="likesVideo">32230</span></p>
+        </section>
+
+        <!-- AUDIO -->
+        <section class="desc-card" style="max-width:600px; margin:auto; text-align:center;">
+            <h2>Publicación de Audio</h2>
+
+            <audio src="../statics/audio/cancion.mp3" controls></audio>
+
+            <p style="margin:15px 0;">Música paraguaya</p>
+
+            <button onclick="likeAudio()">❤️ Me gusta</button>
+            <p>Likes: <span id="likesAudio">27836</span></p>
+        </section>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <p>Diseñada por Daysi Britos - 2025</p>
+</footer>
+
+<script>
+let likesImg = 0;
+let likesVid = 0;
+let likesAud = 0;
+
+function likeImagen() {
+    likesImg++;
+    document.getElementById("likesImagen").textContent = likesImg;
+}
+
+function likeVideo() {
+    likesVid++;
+    document.getElementById("likesVideo").textContent = likesVid;
+}
+
+function likeAudio() {
+    likesAud++;
+    document.getElementById("likesAudio").textContent = likesAud;
+}
+</script>
+
+</body>
+</html>
